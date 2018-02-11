@@ -28,8 +28,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private int REQUEST_ENABLE_BT = 100;
 
+    //蓝牙列表
     private List<String> items = new ArrayList<>();
 
+    //消息列表
+    private List<String> message = new ArrayList<>();
 
     @BindView(R.id.open_bluetooth)
     Button open_bluetooth;
@@ -41,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button send_message;
     @BindView(R.id.bluetooth_list)
     ListView bluetooth_list;
+    @BindView(R.id.messages)
+    ListView messages;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +63,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         //设置蓝牙搜索列表
         setBluetoothList();
+
+        //设置消息列表
+        setMessages();
     }
 
     @Override
@@ -112,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
         //为ListView设置Adapter
-        SimpleAdapter sa = new SimpleAdapter(this, listItems, R.layout.listview_item, new String[]{"bluetooth_item"}, new int[]{R.id.bluetooth_item});
+        SimpleAdapter sa = new SimpleAdapter(this, listItems, R.layout.bluetooth_item, new String[]{"bluetooth_item"}, new int[]{R.id.bluetooth_item});
         bluetooth_list.setAdapter(sa);
 
         //为列表项设置单击事件
@@ -141,4 +149,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
     }
+
+    /**
+     * 设置消息列表
+     */
+    private void setMessages(){
+        //搜索到的蓝牙
+        for (int i = 0; i < 20; i++){
+            message.add("消息" + i);
+        }
+        //创建一个list并存放搜索到的蓝牙
+        List<Map<String, Object>> listItems = new ArrayList<>();
+        for (int i = 0; i < message.size(); i++){
+            Map<String, Object> item = new HashMap<>();
+            item.put("message", message.get(i));
+            listItems.add(item);
+        }
+
+        //为ListView设置Adapter
+        SimpleAdapter sa = new SimpleAdapter(this, listItems, R.layout.message_item, new String[]{"message"}, new int[]{R.id.message_item});
+        messages.setAdapter(sa);
+
+        //为列表项设置单击事件
+        messages.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            //第position项被单击时触发该方法
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
+                //dialog对话框
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("提示");
+                builder.setMessage(message.get(position));
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(MainActivity.this,"取消！",Toast.LENGTH_SHORT).show();
+                    }
+                });
+                builder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Toast.makeText(MainActivity.this,"确定",Toast.LENGTH_SHORT).show();
+                    }
+                });
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+    }
+
 }

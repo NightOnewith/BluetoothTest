@@ -45,8 +45,21 @@
     <ListView
         android:id="@+id/bluetooth_list"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="160dp"
         android:layout_below="@+id/send_message">
+    </ListView>
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_below="@+id/bluetooth_list"/>
+
+    <ListView
+        android:id="@+id/messages"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_below="@+id/image">
     </ListView>
 
 </RelativeLayout>
