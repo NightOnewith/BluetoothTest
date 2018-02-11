@@ -53,8 +53,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         search_bluetooth.setOnClickListener(this);
         send_message.setOnClickListener(this);
 
+        //初始化蓝牙
         init();
 
+        //设置蓝牙搜索列表
         setBluetoothList();
     }
 
